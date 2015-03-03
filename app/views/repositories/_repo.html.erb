@@ -1,0 +1,26 @@
+<div class="repo">
+  <div class="info">
+    <a>
+      <%= i["language"] %>
+    </a>
+    <a>
+      <i class="fa fa-star-o"></i>
+      <%= i["stargazers_count"] %>
+    </a>
+    <a>
+      <i class="fa fa-code-fork"></i>
+      <%= i["forks_count"] %>
+    </a>
+  </div>
+
+  <h3 class="">
+    <%= link_to i["name"], i["url"] %>
+  </h3>
+
+
+
+  <p class="">
+      Updated <%= distance_of_time_in_words_to_now(i["updated_at"].to_datetime) %> ago
+  </p>
+
+</div>

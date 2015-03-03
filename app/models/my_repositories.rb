@@ -1,0 +1,3 @@
+class MyRepositories
+
+end

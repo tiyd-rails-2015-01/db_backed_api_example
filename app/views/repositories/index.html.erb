@@ -1,0 +1,11 @@
+<div class="profile">
+  <%= image_tag @response[0]["owner"]["avatar_url"] %>
+  <h2>
+    <%= @response[0]["owner"]["login"] %>
+  </h2>
+</div>
+<div class="repo-list">
+<% @response.each do |i| %>
+  <%= render "repo", :i => i %>
+<% end %>
+</div>
