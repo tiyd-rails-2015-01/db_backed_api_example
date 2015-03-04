@@ -14,13 +14,15 @@
 ActiveRecord::Schema.define(version: 20150304212700) do
 
   create_table "profiles", force: :cascade do |t|
-    t.text    "body"
-    t.string  "username"
-    t.string  "avatar_url"
-    t.string  "location"
-    t.string  "company_name"
-    t.integer "number_of_followers"
-    t.integer "number_following"
+    t.text     "body"
+    t.string   "username"
+    t.string   "avatar_url"
+    t.string   "location"
+    t.string   "company_name"
+    t.integer  "number_of_followers"
+    t.integer  "number_following"
+    t.datetime "created_at",          null: false
+    t.datetime "updated_at",          null: false
   end
 
   create_table "repositories", force: :cascade do |t|
@@ -32,6 +34,8 @@ ActiveRecord::Schema.define(version: 20150304212700) do
     t.datetime "last_modified_at"
     t.string   "language"
     t.integer  "profile_id"
+    t.datetime "created_at",       null: false
+    t.datetime "updated_at",       null: false
   end
 
 end

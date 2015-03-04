@@ -1,29 +1,14 @@
 class Repository < ActiveRecord::Base
-  def initialize(content)
-    @content = content
+
+  def self.create_from_api(username, hash)
+      Repository.create(body: hash,
+                    name: hash["name"],
+                    repo_url: hash["url"],
+                    number_of_forks: hash["forks_count"],
+                    number_of_stars: hash["stargazers_count"],
+                    last_modified_at: hash["updated_at"],
+                    language: hash["language"]
+    )
   end
 
-  def name
-    @content["name"]
-  end
-
-  def url
-    @content["url"]
-  end
-
-  def number_of_forks
-    @content["forks_count"].to_i
-  end
-
-  def number_of_stars
-    @content["stargazers_count"].to_i
-  end
-
-  def updated_at
-    @content["updated_at"].to_datetime
-  end
-
-  def language
-    @content["language"]
-  end
 end

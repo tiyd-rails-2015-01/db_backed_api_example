@@ -8,7 +8,7 @@ class RepositoryList
                      "User-Agent" => "anyone"
                     }
     )
-    @repositories = results.map {|r| Repository.new(r)}
+    @repositories = results.map {|r| Repository.create_from_api(username, r)}
   end
 
 end

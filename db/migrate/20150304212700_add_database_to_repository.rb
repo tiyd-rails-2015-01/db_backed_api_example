@@ -9,6 +9,8 @@ class AddDatabaseToRepository < ActiveRecord::Migration
       t.column :last_modified_at, :datetime
       t.column :language, :string
       t.column :profile_id, :integer
+
+      t.timestamps null: false
     end
   end
 end

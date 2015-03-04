@@ -8,6 +8,8 @@ class AddDatabaseToProfile < ActiveRecord::Migration
       t.column :company_name, :string
       t.column :number_of_followers, :integer
       t.column :number_following, :integer
+
+      t.timestamps null: false
     end
   end
 end
