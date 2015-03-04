@@ -1,9 +1,15 @@
 class RepositoriesController < ApplicationController
+
   def index
-    @my_repositories = MyRepositories.new
-    @response = HTTParty.get("https://api.github.com/users/tmidge/repos?sort=updated",
-         :headers => {
-           "Authorization" => "token #{ENV['GITHUB_TOKEN']}",
-           "User-Agent" => "tmidge"})
   end
+
+  def show
+    @profile = Profile.new(params[:username])
+    if @profile.username.blank?
+      redirect_to root_path
+    else
+      @repositories = RepositoryList.new(params[:username]).repositories
+    end
+  end
+
 end
