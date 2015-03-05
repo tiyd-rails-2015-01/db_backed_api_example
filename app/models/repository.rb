@@ -30,10 +30,11 @@ class Repository < ActiveRecord::Base
 
   def need_to_update?
     self.updated_at < 2.hours.ago
+    true
   end
 
   def update_from_api(hash)
-    self.update(body: hash,
+      self.update(body: hash,
                   github_id: hash["id"],
                   name: hash["name"],
                   repo_url: hash["url"],
@@ -41,7 +42,7 @@ class Repository < ActiveRecord::Base
                   number_of_stars: hash["stargazers_count"],
                   last_modified_at: hash["updated_at"],
                   language: hash["language"]
-                  )
+                 )
   end
 
 end
