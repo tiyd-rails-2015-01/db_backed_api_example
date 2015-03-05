@@ -7,7 +7,7 @@ class RepositoryList
         :headers => {"Authorization" => "token #{ENV['GITHUB_TOKEN']}",
                      "User-Agent" => "anyone"
                     }
-    )
+    )    
     @repositories = results.map {|r| Repository.create_from_api(username, r)}
   end
 

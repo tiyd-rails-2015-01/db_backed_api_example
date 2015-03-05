@@ -1,4 +1,5 @@
 class Profile < ActiveRecord::Base
+  has_many :repositories
 
   def self.create_from_username(username)
     response = HTTParty.get(
@@ -16,7 +17,6 @@ class Profile < ActiveRecord::Base
                     number_of_followers: response["followers"],
                     number_following: response["following"]
     )
-
     else
       return nil
     end
