@@ -21,4 +21,9 @@ class Profile < ActiveRecord::Base
       return nil
     end
   end
+
+  def self.decide_which_one(username)
+    Profile.find_by_username(username) ||
+      Profile.create_from_username(username)
+  end
 end
