@@ -3,8 +3,9 @@ class Repository < ActiveRecord::Base
 
   def self.create_from_api(username, hash)
       profile = Profile.find_by(username: username)
+      return if profile.nil?
       r = Repository.where(name: hash["name"], profile_id: profile.id)
-      return if r.count > 0 
+      return if r.count > 0
 
       # (Repository.find_by(name: hash["name"])) && (Repository.find_by(profile_id: profile.id))
 
