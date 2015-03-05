@@ -4,9 +4,8 @@ class RepositoriesController < ApplicationController
   end
 
   def show
-    @profile = Profile.decide_which_one(params[:username])
+    @profile = Profile.get_by_username(params[:username])
     redirect_to root_path unless @profile
-    RepositoryList.new(params[:username])
   end
 
 end

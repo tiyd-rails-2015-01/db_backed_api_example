@@ -1,58 +1,41 @@
 class Profile < ActiveRecord::Base
   has_many :repositories
 
-  def self.create_from_username(username)
-    response = HTTParty.get(
-        "https://api.github.com/users/#{username}",
-        :headers => {"Authorization" => "token #{ENV['GITHUB_TOKEN']}",
-                     "User-Agent" => "anyone"
-                    }
-    )
-    if response["login"]
-      Profile.create(body: response,
-                    username: response["login"],
-                    avatar_url: response["avatar_url"],
-                    location: response["location"],
-                    company_name: response["company"],
-                    number_of_followers: response["followers"],
-                    number_following: response["following"]
-    )
-    else
-      return nil
+  def self.get_by_username(username)
+    profile = find_by_username(username)
+    if profile.blank?
+      if github_profile = Github.profile_for(username)
+        profile = create(github_profile)
+      end
     end
+
+    profile.refresh if profile
+
+    profile
   end
 
-  def update_from_api
-    response = HTTParty.get(
-        "https://api.github.com/users/#{self.username}",
-        :headers => {"Authorization" => "token #{ENV['GITHUB_TOKEN']}",
-                     "User-Agent" => "anyone"
-                    }
-    )
-    if response["login"]
-      self.update(body: response,
-                    username: response["login"],
-                    avatar_url: response["avatar_url"],
-                    location: response["location"],
-                    company_name: response["company"],
-                    number_of_followers: response["followers"],
-                    number_following: response["following"]
-    )
-    else
-      return nil
+  def refresh
+    update_from_github if stale?
+    update_repositories_from_github if stale_repositories?
+  end
+
+  def stale?
+    self.updated_at < Time.now - 1.day
+  end
+
+  def stale_repositories?
+    repositories.blank? || repositories.any? {|r| r.stale?}
+  end
+
+  def update_from_github
+    update(Github.profile_for(username))
+  end
+
+  def update_repositories_from_github
+    repositories.destroy_all
+    Github.repositories_for(username).each do |r|
+      repositories << Repository.create(r)
     end
-  end
-
-  def need_to_update?
-    self.updated_at < 1.day.ago
-  end
-
-  def self.decide_which_one(username)
-    p = Profile.find_by_username(username) ||
-      Profile.create_from_username(username)
-
-    p.update_from_api if p.need_to_update?
-    return p
   end
 
 end
