@@ -44,7 +44,7 @@ class Profile < ActiveRecord::Base
   end
 
   def need_to_update?
-    self.updated_at < 1.minute.ago
+    self.updated_at < 1.day.ago
   end
 
   def self.decide_which_one(username)
